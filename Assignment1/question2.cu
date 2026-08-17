@@ -7,7 +7,7 @@ __global__ void func(int totalBlock){
     if(threadIdx.x==0)atomicAdd(&counter, 1);
     __syncthreads();
     while(counter<totalBlock){
-      printf("waiting for block %d\n", 1 - blockIdx.x);
+      printf("waiting for other block/s \n");
     }
     printf("Thread %d, Block %d, BlockDim %d, counter: %d\n",threadIdx.x,blockIdx.x,blockDim.x,counter);
     //__syncthreads();
@@ -15,7 +15,7 @@ __global__ void func(int totalBlock){
 
 int main()
 {
-    func<<<2, 10>>>(2);
+    func<<<10, 1024>>>(2);
     cudaDeviceSynchronize();
     return 0;
 }
